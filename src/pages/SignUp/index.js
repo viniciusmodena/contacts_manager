@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -12,15 +11,12 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Copyright from "../../components/Copyrights";
-import { useNavigate } from "react-router-dom";
 import { useUser } from "../../Providers/users";
 
 const theme = createTheme();
 
 export default function SignUp() {
-  const { userSignUp, authUser, setAuthUser, user, setUser } = useUser();
-
-  const navigate = useNavigate();
+  const { userSignUp } = useUser();
 
   const signUpSchema = yup.object().shape({
     name: yup

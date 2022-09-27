@@ -4,17 +4,15 @@ import { ToastContainer } from "react-toastify";
 import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
 import Home from "../pages/Home";
-import NoMatch from "../pages/NoMatch";
 import ProtectedRoute from "./ProtectRoute";
 import "react-toastify/dist/ReactToastify.css";
 import { useUser } from "../Providers/users";
 import LogoutOnlyRoute from "./LogoutOnlyRoute";
-import { useEffect } from "react";
 import Profile from "../pages/Profile";
 
 const Routes = () => {
   const { authUser } = useUser();
-  const token = JSON.parse(localStorage.getItem("@contacts_manager:token"));
+  const user = JSON.parse(localStorage.getItem("@contacts_manager:user"));
 
   return (
     <>
@@ -31,16 +29,15 @@ const Routes = () => {
       />
       <AnimatePresence>
         <Switch>
-          <Route element={<ProtectedRoute isAllowed={authUser || token} />}>
+          <Route element={<ProtectedRoute isAllowed={authUser || user} />}>
             <Route index element={<Home />} />
             <Route path="/home" element={<Home />} />
             <Route path="/profile" element={<Profile />} />
           </Route>
-          <Route element={<LogoutOnlyRoute isAllowed={authUser || token} />}>
+          <Route element={<LogoutOnlyRoute isAllowed={authUser || user} />}>
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
           </Route>
-          <Route path="*" element={<NoMatch />} />
         </Switch>
       </AnimatePresence>
     </>

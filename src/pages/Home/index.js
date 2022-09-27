@@ -1,24 +1,15 @@
-import { useEffect, useState, Fragment } from "react";
-import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
+import { useEffect } from "react";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import MuiDrawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
-import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import Copyright from "../../components/Copyrights";
-import { useNavigate } from "react-router-dom";
 import { useContact } from "../../Providers/contacts";
 import ControlPointOutlinedIcon from "@mui/icons-material/ControlPointOutlined";
 import ContactModal from "../../components/ContactsModal";
@@ -26,17 +17,16 @@ import { useModal } from "../../Providers/modals";
 import ContactDetailModal from "../../components/ContactDetailModal";
 import Header from "../../components/Header";
 import ContactCard from "../../components/ContactCard";
+import { useUser } from "../../Providers/users";
 
 const mdTheme = createTheme();
 
 function Home() {
   const { type, handleOpenModal, openModal, handleModal } = useModal();
   const { contactList, listUserContacts } = useContact();
-  const navigate = useNavigate();
 
   useEffect(() => {
     listUserContacts();
-    console.log("Contact List Loaded");
   }, []);
 
   const user = JSON.parse(localStorage.getItem("@contacts_manager:user"));

@@ -1,4 +1,5 @@
 import {
+  Button,
   Container,
   createTheme,
   CssBaseline,
@@ -16,12 +17,27 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Box } from "@mui/system";
 import Header from "../../components/Header";
 import { useUser } from "../../Providers/users";
+import ProfileField from "../../components/ProfileField";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import Copyright from "../../components/Copyrights";
+import ConfirmationModal from "../../components/ConfirmationModal";
 
 const mdTheme = createTheme();
 
 function Profile() {
-  const { user } = useUser();
+  const user = JSON.parse(localStorage.getItem("@contacts_manager:user"));
+
   const [editProfile, setEditProfile] = useState(false);
+  const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
+
+  const { logout, userUpdateAccountInfo, userDeleteAccount } = useUser();
+  const handleClose = () => {
+    setOpenConfirmationModal(!openConfirmationModal);
+  };
+
+  const toggleEditProfile = () => {
+    setEditProfile(!editProfile);
+  };
 
   const updateUserSchema = yup.object().shape({
     name: yup
@@ -30,7 +46,7 @@ function Profile() {
       .min(4, "This field must have a minumun of 4 characteres")
       .max(127, "Tihe field must have a maximun of 127 characteres"),
     email: yup.string().email().required("*This field is required"),
-    phoneNumber: yup
+    phone: yup
       .string()
       .required("* Required field!")
       .matches(
@@ -53,20 +69,29 @@ function Profile() {
     const updatedData = {
       full_name: data.name,
       email: data.email,
-      phone_number: data.phoneNumber,
+      phone_number: data.phone,
     };
 
-    // updateContactInfo(updatedData);
+    userUpdateAccountInfo(updatedData);
     setEditProfile(false);
   };
 
   const handleDelete = () => {
-    // deleteContact();
+    userDeleteAccount();
+    logout();
     setEditProfile(false);
   };
 
+  const message = "Are you sure you want to delete your account?";
+
   return (
     <ThemeProvider theme={mdTheme}>
+      <ConfirmationModal
+        open={openConfirmationModal}
+        handleClose={handleClose}
+        modalMessage={message}
+        handleClick={handleDelete}
+      />
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <Header />
@@ -93,62 +118,87 @@ function Profile() {
               }}
             >
               <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <Typography sx={{ my: 2, fontWeight: 500 }}>
-                    Profile
-                  </Typography>
+                <Grid
+                  item
+                  xs={12}
+                  sx={{
+                    p: 2,
+                    mt: 4,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Typography sx={{ fontWeight: 500 }}>Profile</Typography>
+                  {!editProfile && (
+                    <Button onClick={toggleEditProfile}>
+                      <EditOutlinedIcon />
+                    </Button>
+                  )}
                 </Grid>
                 <Grid item xs={12}>
                   <Box
                     component="form"
-                    noValidate
                     onSubmit={handleSubmit(handleEdit)}
-                    sx={{ mt: 4 }}
+                    sx={{ p: 2 }}
                   >
                     <Grid container spacing={2}>
                       {/* Name */}
                       <Grid item xs={12}>
-                        <TextField
-                          autoComplete="given-name"
-                          name="name"
-                          required
-                          fullWidth
-                          id="name"
-                          label="Name"
-                          autoFocus
-                          {...register("name")}
-                          error={!!errors.name}
-                          helperText={errors.name?.message}
-                          defaultValue={user.full_name}
+                        <ProfileField
+                          editProfile={editProfile}
+                          fieldName={"Name"}
+                          fieldValue={user.full_name}
+                          register={register}
+                          error={errors.name}
                         />
                       </Grid>
                       {/* Email */}
                       <Grid item xs={12}>
-                        <TextField
-                          fullWidth
-                          id="email"
-                          label="Email Address"
-                          name="email"
-                          autoComplete="email"
-                          {...register("email")}
-                          error={!!errors.email}
-                          helperText={errors.email?.message}
-                          defaultValue={user.email}
+                        <ProfileField
+                          editProfile={editProfile}
+                          fieldName={"Email"}
+                          fieldValue={user.email}
+                          register={register}
+                          error={errors.email}
                         />
                       </Grid>
                       {/* Phone Number */}
                       <Grid item xs={12}>
-                        <TextField
-                          fullWidth
-                          id="phoneNumber"
-                          label="Phone Number"
-                          name="phoneNumber"
-                          autoComplete="phone"
-                          {...register("phoneNumber")}
-                          error={!!errors.phoneNumber}
-                          helperText={errors.phoneNumber?.message}
-                          defaultValue={user.phone_number}
+                        <ProfileField
+                          editProfile={editProfile}
+                          fieldName={"Phone"}
+                          fieldValue={user.phone_number}
+                          register={register}
+                          error={errors.email}
                         />
+                      </Grid>
+                      {editProfile && (
+                        <Grid container>
+                          <Grid item xs={6}>
+                            <Button
+                              fullWidth
+                              variant="contained"
+                              sx={{ mt: 3, mb: 2, bgcolor: "red" }}
+                              onClick={toggleEditProfile}
+                            >
+                              Discard
+                            </Button>
+                          </Grid>
+                          <Grid item xs={6}>
+                            <Button
+                              type="submit"
+                              fullWidth
+                              variant="contained"
+                              sx={{ mt: 3, mb: 2 }}
+                            >
+                              Save
+                            </Button>
+                          </Grid>
+                        </Grid>
+                      )}
+                      <Grid item xs={12} sx={{ mt: 10 }}>
+                        <Button onClick={handleClose}>Delete Account</Button>
                       </Grid>
                     </Grid>
                   </Box>
@@ -156,6 +206,7 @@ function Profile() {
               </Grid>
             </Paper>
           </Container>
+          <Copyright />
         </Box>
       </Box>
     </ThemeProvider>

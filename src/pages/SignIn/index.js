@@ -1,30 +1,22 @@
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Copyright from "../../components/Copyrights";
-import { useNavigate } from "react-router-dom";
 import { useUser } from "../../Providers/users";
 
 const theme = createTheme();
 
 export default function SignIn() {
-  const { userSignIn, user, setUser, authUser, setAuthUser } = useUser();
-
-  const navigate = useNavigate();
+  const { userSignIn } = useUser();
 
   const signInSchema = yup.object().shape({
     email: yup.string().email().required("Email field is required"),

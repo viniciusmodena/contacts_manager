@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { Modal, Paper } from "@mui/material";
 import { useContact } from "../../Providers/contacts";
+import ConfirmationModal from "../ConfirmationModal";
 
 const style = {
   position: "absolute",
@@ -72,6 +73,9 @@ export default function ContactDetailModal({ open, type, handleClose }) {
     handleClose();
   };
 
+  const message = `Do you really want to remove ${contact.full_name} from yor
+  contatc list?`;
+
   switch (type) {
     case "update":
       return (
@@ -89,7 +93,6 @@ export default function ContactDetailModal({ open, type, handleClose }) {
             {/* Update Contact Form */}
             <Box
               component="form"
-              noValidate
               onSubmit={handleSubmit(handleEdit)}
               sx={{ mt: 4 }}
             >
@@ -173,54 +176,12 @@ export default function ContactDetailModal({ open, type, handleClose }) {
 
     case "delete":
       return (
-        <Modal
+        <ConfirmationModal
           open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Container sx={style}>
-            <Typography component="h1" variant="h5" alignSelf="center">
-              Remove Contact?
-            </Typography>
-            {/* Confirmation Text */}
-            <Box>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <Paper sx={{ p: 2 }}>
-                    Do you really want to remove {contact.full_name} from yor
-                    contatc list?
-                  </Paper>
-                </Grid>
-              </Grid>
-              <Grid container spacing={3} alignItems="center">
-                <Grid item xs={6}>
-                  {/* No Button */}
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2, bgcolor: "red" }}
-                    onClick={handleClose}
-                  >
-                    No
-                  </Button>
-                </Grid>
-
-                <Grid item xs={6}>
-                  {/* Yes Button */}
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
-                    onClick={handleDelete}
-                  >
-                    Yes
-                  </Button>
-                </Grid>
-              </Grid>
-            </Box>
-          </Container>
-        </Modal>
+          handleClose={handleClose}
+          modalMessage={message}
+          handleClick={handleDelete}
+        />
       );
   }
 }

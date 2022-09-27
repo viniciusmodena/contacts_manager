@@ -14,7 +14,8 @@ import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import { useUser } from "../../Providers/users";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import { ListItemButton } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 
 const drawerWidth = 240;
 
@@ -66,6 +67,7 @@ function Header() {
   const user = JSON.parse(localStorage.getItem("@contacts_manager:user"));
   const { logout } = useUser();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [open, setOpen] = useState(false);
   const toggleDrawer = () => {
@@ -133,14 +135,25 @@ function Header() {
         {/* lista vertical */}
         <List component="nav">
           {/* listar item aqui */}
-          <ListItemButton
-            onClick={() => navigate("/profile", { replace: true })}
-          >
-            <ListItemAvatar>
-              <AccountCircleRoundedIcon />
-            </ListItemAvatar>
-            Profile
-          </ListItemButton>
+          {location.pathname !== "/profile" ? (
+            <ListItemButton
+              onClick={() => navigate("/profile", { replace: true })}
+            >
+              <ListItemAvatar>
+                <AccountCircleRoundedIcon />
+              </ListItemAvatar>
+              Profile
+            </ListItemButton>
+          ) : (
+            <ListItemButton
+              onClick={() => navigate("/home", { replace: true })}
+            >
+              <ListItemAvatar>
+                <HomeOutlinedIcon />
+              </ListItemAvatar>
+              Home
+            </ListItemButton>
+          )}
           <Divider sx={{ my: 1 }} />
           <ListItemButton onClick={logout}>
             <ListItemAvatar>

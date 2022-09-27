@@ -46,10 +46,7 @@ export const UserProvider = ({ children }) => {
           JSON.stringify(response.data.access_token)
         );
 
-        setUser({
-          user: response.data.user,
-          token: response.data.access_token,
-        });
+        setUser(response.data.user);
 
         setAuthUser(true);
       })
@@ -93,11 +90,12 @@ export const UserProvider = ({ children }) => {
           JSON.stringify(response.data)
         );
 
-        setUser({ user: response.data, ...user });
+        setUser(response.data);
 
         toast.success(`Account information updated successfully!`);
       })
       .catch((err) => {
+        console.log(err);
         toast.error(`Account information failed to update!`);
       });
   };
@@ -115,7 +113,7 @@ export const UserProvider = ({ children }) => {
       .then((response) => {
         localStorage.removeItem("@contacts_manager:user");
         localStorage.removeItem("@contacts_manager:token");
-        setUser({});
+        setUser(undefined);
         setAuthUser(false);
       })
       .catch((err) => {});

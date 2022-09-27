@@ -1,16 +1,25 @@
-function ProfileField({ editProfile, fieldName, fieldValue }) {
+import { TextField, Typography } from "@mui/material";
+
+function ProfileField({ editProfile, fieldName, fieldValue, register, error }) {
   return (
     <>
       {!editProfile ? (
-        <Typography>
+        <Typography sx={{ px: 2 }}>
           {fieldName}: {fieldValue}
         </Typography>
       ) : (
         <TextField
-          {...rest}
+          id={fieldName.toLowerCase()}
+          name={fieldName.toLowerCase()}
+          label={fieldName}
+          required
+          fullWidth
           autoFocus
-          value={value}
-          onChange={(event) => setName(event.target.value)}
+          // register
+          {...register(`${fieldName.toLowerCase()}`)}
+          error={error}
+          helperText={error?.message}
+          defaultValue={fieldValue}
         />
       )}
     </>
