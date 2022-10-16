@@ -5,7 +5,6 @@ import {
   CssBaseline,
   Grid,
   Paper,
-  TextField,
   ThemeProvider,
   Toolbar,
   Typography,
@@ -40,7 +39,12 @@ function Profile() {
   };
 
   const updateUserSchema = yup.object().shape({
-    name: yup
+    first_name: yup
+      .string()
+      .required("*This field is required")
+      .min(4, "This field must have a minumun of 4 characteres")
+      .max(127, "Tihe field must have a maximun of 127 characteres"),
+    last_name: yup
       .string()
       .required("*This field is required")
       .min(4, "This field must have a minumun of 4 characteres")
@@ -67,7 +71,8 @@ function Profile() {
 
   const handleEdit = (data) => {
     const updatedData = {
-      full_name: data.name,
+      fist_name: data.first_name,
+      last_name: data.last_name,
       email: data.email,
       phone_number: data.phone,
     };
@@ -143,14 +148,24 @@ function Profile() {
                     sx={{ p: 2 }}
                   >
                     <Grid container spacing={2}>
-                      {/* Name */}
+                      {/* First Name */}
                       <Grid item xs={12}>
                         <ProfileField
                           editProfile={editProfile}
-                          fieldName={"Name"}
-                          fieldValue={user.full_name}
+                          fieldName={"First Name"}
+                          fieldValue={user.first_name}
                           register={register}
-                          error={errors.name}
+                          error={errors.first_name}
+                        />
+                      </Grid>
+                      {/* Last Name */}
+                      <Grid item xs={12}>
+                        <ProfileField
+                          editProfile={editProfile}
+                          fieldName={"Last Name"}
+                          fieldValue={user.last_name}
+                          register={register}
+                          error={errors.last_name}
                         />
                       </Grid>
                       {/* Email */}

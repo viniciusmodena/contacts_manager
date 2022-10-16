@@ -20,10 +20,10 @@ function ContactCard({ item }) {
       }}
     >
       <Grid container sx={{ py: 2 }}>
-        <Grid item xs={12}>
-          <Typography>{item.full_name}</Typography>
+        <Grid item xs={12} sx={{ padding: "10px" }}>
+          <Typography>{item.name}</Typography>
         </Grid>
-        <Grid item xs={12} sm={6} sx={{ bgcolor: "whitesmoke" }}>
+        <Grid item xs={12} sm={10} sx={{ bgcolor: "whitesmoke" }}>
           <List>
             <ListItem>Email: {item.email}</ListItem>
             <ListItem>Phone: {item.phone_number}</ListItem>
@@ -32,7 +32,7 @@ function ContactCard({ item }) {
         <Grid
           item
           xs={12}
-          sm={6}
+          sm={2}
           sx={{
             display: "flex",
             justifyContent: "flex-end",
@@ -40,6 +40,7 @@ function ContactCard({ item }) {
             bgcolor: "whitesmoke",
           }}
         >
+          {/* Edit Contact Button */}
           <IconButton
             edge="end"
             aria-label="edit contact "
@@ -51,6 +52,7 @@ function ContactCard({ item }) {
           >
             <EditOutlinedIcon />
           </IconButton>
+          {/* Delete Contact Button */}
           <IconButton
             edge="end"
             aria-label="remove contact "

@@ -17,7 +17,6 @@ import { useModal } from "../../Providers/modals";
 import ContactDetailModal from "../../components/ContactDetailModal";
 import Header from "../../components/Header";
 import ContactCard from "../../components/ContactCard";
-import { useUser } from "../../Providers/users";
 
 const mdTheme = createTheme();
 
@@ -72,7 +71,7 @@ function Home() {
                   }}
                 >
                   <Typography sx={{ my: 2 }}>
-                    {user.full_name} Contacts
+                    {user.first_name} Contacts
                   </Typography>
                   <IconButton
                     edge="start"

@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -8,7 +7,7 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { Modal, Paper } from "@mui/material";
+import { Modal } from "@mui/material";
 import { useContact } from "../../Providers/contacts";
 
 const style = {
@@ -57,7 +56,7 @@ export default function ContactModal({ open, handleClose }) {
 
   const handleCreate = (data) => {
     const contactData = {
-      full_name: data.name,
+      name: data.name,
       email: data.email,
       phone_number: data.phoneNumber,
     };

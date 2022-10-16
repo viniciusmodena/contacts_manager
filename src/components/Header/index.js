@@ -104,7 +104,7 @@ function Header() {
           >
             Contacts Manager
           </Typography>
-          <Typography>Welcome {user.full_name}</Typography>
+          <Typography>Welcome {user.first_name}</Typography>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>

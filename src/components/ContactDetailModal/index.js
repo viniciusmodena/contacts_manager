@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -8,7 +7,7 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { Modal, Paper } from "@mui/material";
+import { Modal } from "@mui/material";
 import { useContact } from "../../Providers/contacts";
 import ConfirmationModal from "../ConfirmationModal";
 
@@ -58,7 +57,7 @@ export default function ContactDetailModal({ open, type, handleClose }) {
 
   const handleEdit = (data) => {
     const updatedData = {
-      full_name: data.name,
+      name: data.name,
       email: data.email,
       phone_number: data.phoneNumber,
     };
@@ -73,7 +72,7 @@ export default function ContactDetailModal({ open, type, handleClose }) {
     handleClose();
   };
 
-  const message = `Do you really want to remove ${contact.full_name} from yor
+  const message = `Do you really want to remove ${contact.name} from yor
   contatc list?`;
 
   switch (type) {
@@ -110,7 +109,7 @@ export default function ContactDetailModal({ open, type, handleClose }) {
                     {...register("name")}
                     error={!!errors.name}
                     helperText={errors.name?.message}
-                    defaultValue={contact.full_name}
+                    defaultValue={contact.name}
                   />
                 </Grid>
                 {/* Email */}

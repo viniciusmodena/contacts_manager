@@ -19,10 +19,15 @@ export default function SignUp() {
   const { userSignUp } = useUser();
 
   const signUpSchema = yup.object().shape({
-    name: yup
+    first_name: yup
       .string()
       .required("*This field is required")
-      .min(4, "This field must have a minumun of 4 characteres")
+      .min(2, "This field must have a minumun of 2 characteres")
+      .max(127, "Tihe field must have a maximun of 127 characteres"),
+    last_name: yup
+      .string()
+      .required("*This field is required")
+      .min(2, "This field must have a minumun of 2 characteres")
       .max(127, "Tihe field must have a maximun of 127 characteres"),
     email: yup.string().email().required("*This field is required"),
     password: yup
@@ -57,7 +62,8 @@ export default function SignUp() {
 
   const handleSignUp = (data) => {
     const user = {
-      full_name: data.name,
+      first_name: data.first_name,
+      last_name: data.last_name,
       email: data.email,
       password: data.password,
       phone_number: data.phoneNumber,
@@ -89,19 +95,34 @@ export default function SignUp() {
             sx={{ mt: 4 }}
           >
             <Grid container spacing={2}>
-              {/* Name */}
+              {/* First Name */}
               <Grid item xs={12}>
                 <TextField
-                  autoComplete="given-name"
-                  name="name"
+                  autoComplete="given-first-name"
+                  name="first_name"
                   required
                   fullWidth
-                  id="name"
-                  label="Name"
+                  id="first_name"
+                  label="First Name"
                   autoFocus
-                  {...register("name")}
-                  error={!!errors.name}
-                  helperText={errors.name?.message}
+                  {...register("first_name")}
+                  error={!!errors.first_name}
+                  helperText={errors.first_name?.message}
+                />
+              </Grid>
+              {/* Last Name */}
+              <Grid item xs={12}>
+                <TextField
+                  autoComplete="given-last-name"
+                  name="last_name"
+                  required
+                  fullWidth
+                  id="last_name"
+                  label="Last Name"
+                  autoFocus
+                  {...register("last_name")}
+                  error={!!errors.last_name}
+                  helperText={errors.last_name?.message}
                 />
               </Grid>
               {/* Email */}
